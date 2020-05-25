@@ -1,6 +1,10 @@
-makeItChart();
+makeItChart1();
+makeItChart2();
 const x_labels = [];
 const y_data = [];
+const x_labels_2 = [];
+const y_data_2 = [];
+
 async function getData() {
     const movie_response = await fetch('states.csv');
     const movie_data = await movie_response.text();
@@ -14,6 +18,8 @@ async function getData() {
         const coverage = columns[4];
         x_labels.push(state);
         y_data.push(avg_month_pay);
+        y_data_2.push(coverage);
+        x_labels_2.push(avg_month_pay);
         /*const popularity = columns[10];
         const premier = columns[14];
         const revenue = columns[15];
@@ -26,7 +32,7 @@ async function getData() {
 
 }
 
-async function makeItChart() {
+async function makeItChart1() {
     await getData();
     const ctx = document.getElementById('chart_1').getContext('2d');
 
@@ -53,7 +59,47 @@ async function makeItChart() {
                         beginAtZero: true
                     }
                 }]
+            },
+            tooltips: {
+
             }
+
+        }
+    });
+}
+
+async function makeItChart2() {
+    await getData();
+    const ctx = document.getElementById('chart_2').getContext('2d');
+
+    const myChart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: x_labels_2,
+            datasets: [{
+                label: 'Avarage coverage per insurance payment',
+                data: y_data_2,
+                backgroundColor:
+                    'rgba(19, 57, 159, 0.2)'
+                ,
+                borderColor:
+                    'rgba(19, 99, 132, 1)'
+                ,
+                borderWidth: 1
+            }]
+        },
+        options: {
+            scales: {
+                yAxes: [{
+                    ticks: {
+                        beginAtZero: true
+                    }
+                }]
+            },
+            tooltips: {
+
+            }
+
         }
     });
 }
